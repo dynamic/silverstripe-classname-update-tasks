@@ -3,7 +3,7 @@
     "type": "silverstripe-vendormodule",
     "description": "Module that updates legacy classnames stored in the database to FQN",
     "keywords": [
-        "silverstripe",
+        "silverstripe"
     ],
     "license": "BSD-3-Clause",
     "authors": [
