@@ -46,14 +46,16 @@ class DatabaseClassNameUpdateTask extends BuildTask
     /**
      * @param \SilverStripe\Control\HTTPRequest $request
      */
-    public function run($request)
+    public function run($request, $mapping = [])
     {
-        if (!$this->config()->get('upgrade_file_path') || !file_exists($this->config()->get('upgrade_file_path'))) {
-            $class = static::class;
-            echo "You must specify the configuration variable: 'upgrade_file_path' for '{$class}'\n";
-            return;
+        if (empty($mapping)) {
+            if (!$this->config()->get('upgrade_file_path') || !file_exists($this->config()->get('upgrade_file_path'))) {
+                $class = static::class;
+                echo "You must specify the configuration variable: 'upgrade_file_path' for '{$class}'\n";
+                return;
+            }
+            $mapping = $this->getMappingObject();
         }
-        $mapping = $this->getMappingObject();
 
         $this->updateClassNameColumns($mapping);
 
@@ -65,7 +67,8 @@ class DatabaseClassNameUpdateTask extends BuildTask
      */
     protected function updateClassNameColumns($mapping)
     {
-        foreach ($this->getMapping() as $key => $val) {
+        $mapping = ($mapping === (array)$mapping) ? $mapping : $this->getMapping();
+        foreach ($mapping as $key => $val) {
             $ancestry = ClassInfo::ancestry($val);
             $ancestry = array_merge(array_values($ancestry), array_values($ancestry));
 
