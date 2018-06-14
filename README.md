@@ -9,49 +9,11 @@ This module allows for mappping legacy classnames to new classnames. This is mos
 
 ## Installation
 
-`composer require dynamic/silverstripe-classname-update-tasks`
+`composer require-dev dynamic/silverstripe-classname-update-tasks`
 
 ## Usage
 
-#### For DataObjects
-```php
-<?php
-
-namespace Foo\Bar\Baz;
-
-use Dynamic\ClassNameUpdate\BuildTasks\DataObjectClassNameUpdate;
-use Foo\Bar\Baz\MyDataObjectClass;
-
-class MyDataObjectClassnameTask extends DataObjectClassNameUpdate
-{
-    public function __construct($key = [])
-    {
-        $key = [
-            'MyDataObjectClass' => MyDataObjectClass::class,
-        ];
-        
-        parent::__construct($key);
-    }
-}
-```
-
-#### For Pages
-```php
-<?php
-
-namespace Foo\Bar\Baz;
-use Dynamic\ClassNameUpdate\BuildTasks\SiteTreeClassNameUpdateTask;
-use Foo\Bar\Baz\MyPageClass;
-
-class MyPageClassnameTask extends SiteTreeClassNameUpdateTask
-{
-    public funcion __construct($key = [])
-    {
-        $key = [
-            'MyPageClass' => MyPageClass::class,
-        ];
-        
-        parent::__construct($key);
-    }
-}
-```
+- Upgrade your codebase with the [SilverStripe Upgrader Tool](https://packagist.org/packages/silverstripe/upgrader).
+- Import your database into your upgraded SilverStripe 4 website.
+- Run the "Database ClassName Update Task" from cli or the browser.
+- Be sure to check if there are any ClassNames that didnot update properly.
