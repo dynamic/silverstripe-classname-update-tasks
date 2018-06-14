@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "phpunit/PHPUnit": "^5.7",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "silverstripe/upgrader": "^1.1@dev"
     },
     "config": {
         "process-timeout": 600
