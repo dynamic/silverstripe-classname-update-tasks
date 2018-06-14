@@ -68,8 +68,10 @@ class DatabaseClassNameUpdateTask extends BuildTask
         foreach ($this->getMapping() as $key => $val) {
             $ancestry = ClassInfo::ancestry($val);
             $ancestry = array_merge(array_values($ancestry), array_values($ancestry));
+
             if (in_array(DataObject::class, $ancestry)) {
                 $queryClass = $ancestry[array_search(DataObject::class, $ancestry) + 1];
+
                 foreach ($this->yieldRecords($queryClass, $key) as $record) {
                     $this->updateRecord($record, $val);
                 }
@@ -108,6 +110,7 @@ class DatabaseClassNameUpdateTask extends BuildTask
         if (!$this->mapping instanceof MappingObject) {
             $this->setMappingObject();
         }
+
         return $this->mapping_object;
     }
 
@@ -117,6 +120,7 @@ class DatabaseClassNameUpdateTask extends BuildTask
     protected function setMapping()
     {
         $this->mapping = $this->getMappingObject()->getUpgradeMapping();
+
         return $this;
     }
 
@@ -128,6 +132,7 @@ class DatabaseClassNameUpdateTask extends BuildTask
         if (!$this->mapping) {
             $this->setMapping();
         }
+
         return $this->mapping;
     }
 

@@ -40,6 +40,7 @@ class MappingObject
     public function setMappingPath($path)
     {
         $this->mapping_file_path = $path;
+
         return $this;
     }
 
@@ -51,6 +52,7 @@ class MappingObject
         if (!$this->mapping_file_path) {
             $this->setMappingPath();
         }
+
         return $this->mapping_file_path;
     }
 
@@ -60,7 +62,6 @@ class MappingObject
     public function setUpgradeMapping()
     {
         $parsed = Yaml::parseFile($this->getMappingPath());
-
         $this->upgrade_mapping = $parsed['mappings'];
 
         return $this;
@@ -74,6 +75,7 @@ class MappingObject
         if (!$this->upgrade_mapping) {
             $this->setUpgradeMapping();
         }
+
         return $this->upgrade_mapping;
     }
 }
