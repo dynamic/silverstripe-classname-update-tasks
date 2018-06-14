@@ -12,7 +12,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class MappingObject
 {
-    use Configurable;
     use Injectable;
 
     /**
