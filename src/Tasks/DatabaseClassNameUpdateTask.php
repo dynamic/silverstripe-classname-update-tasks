@@ -66,8 +66,11 @@ class DatabaseClassNameUpdateTask extends BuildTask
     protected function updateClassNameColumns($mapping)
     {
         foreach ($this->getMapping() as $key => $val) {
-            if (in_array(DataObject::class, ClassInfo::ancestry($val))) {
-                foreach ($this->yieldRecords($val::singleton(), $key) as $record) {
+            $ancestry = ClassInfo::ancestry($val);
+            $ancestry = array_merge(array_values($ancestry), array_values($ancestry));
+            if (in_array(DataObject::class, $ancestry)) {
+                $queryClass = $ancestry[array_search(DataObject::class, $ancestry) + 1];
+                foreach ($this->yieldRecords($queryClass, $key) as $record) {
                     $this->updateRecord($record, $val);
                 }
             }
@@ -133,9 +136,9 @@ class DatabaseClassNameUpdateTask extends BuildTask
      * @param $legacyName
      * @return \Generator
      */
-    public function yieldRecords($singleton, $legacyName)
+    public function yieldRecords($class, $legacyName)
     {
-        foreach ($singleton::get()->filter('ClassName', $legacyName) as $object) {
+        foreach ($class::get()->filter('ClassName', $legacyName) as $object) {
             yield $object;
         }
     }
