@@ -3,9 +3,11 @@
 namespace Dynamic\ClassNameUpdate\BuildTasks;
 
 use Dynamic\ClassNameUpdate\MappingObject;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Versioned\Versioned;
 
 /**
  * Class DatabaseClassNameUpdateTask
@@ -88,8 +90,16 @@ class DatabaseClassNameUpdateTask extends BuildTask
      */
     protected function updateRecord($record, $updatedClassName)
     {
+        if ($record instanceof SiteTree || $record->hasExtension(Versioned::class)) {
+            $published = $record->isPublished();
+        }
+
         $record->ClassName = $updatedClassName;
         $record->write();
+
+        if (isset($published) && $published) {
+            $record->publishSingle();
+        }
     }
 
     /**
